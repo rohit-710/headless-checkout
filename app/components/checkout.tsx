@@ -152,7 +152,7 @@ const Checkout = () => {
 
   const chainIdMap: { [key: string]: string } = {
     "42161": "arbitrum",
-    "8453": "base-mainnet",
+    "8453": "base",
     "1": "ethereum",
     "10": "optimism",
   };
