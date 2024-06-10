@@ -22,31 +22,26 @@ const Checkout = () => {
   // update the existing order whenever chainId or connected wallet changes
   useEffect(() => {
     const updateExistingOrder = async () => {
-      try {
-        if (!order || !account.address) {
-          console.log("Order or account not ready for update");
-          return;
-        }
-
-        const chain = chainIdMap[chainId.toString()];
-        const currency = chain === "base" ? "degen" : "eth";
-
-        await updateOrder({
-          payment: {
-            method: chain,
-            currency: currency,
-            payerAddress: account.address,
-          },
-          recipient: {
-            walletAddress: account.address,
-          },
-        });
-
-        console.log("Order updated successfully");
-      } catch (error) {
-        console.error("Failed to update order", error);
-        throw new Error("Failed to update order");
+      if (!order || !account.address) {
+        console.log("Order or account not ready for update");
+        return;
       }
+
+      const chain = chainIdMap[chainId.toString()];
+      const currency = chain === "base" ? "degen" : "eth";
+
+      await updateOrder({
+        payment: {
+          method: chain,
+          currency: currency,
+          payerAddress: account.address,
+        },
+        recipient: {
+          walletAddress: account.address,
+        },
+      });
+
+      console.log("Order updated successfully");
     };
 
     updateExistingOrder();
