@@ -23,7 +23,7 @@ const Checkout = () => {
   useEffect(() => {
     const updateExistingOrder = async () => {
       try {
-        if (!account.isConnected) {
+        if (!order || !account.isConnected || !account.address) {
           console.log("Order or account not ready for update");
           return;
         }
