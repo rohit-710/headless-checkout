@@ -34,7 +34,7 @@ const Checkout = () => {
       lineItems: {
         collectionLocator: `crossmint:${process.env.NEXT_PUBLIC_CROSSMINT_COLLECTION_ID}`,
         callData: {
-          totalPrice: "0.001",
+          totalPrice: "0.00000488",
         },
       },
     });
