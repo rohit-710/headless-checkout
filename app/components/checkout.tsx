@@ -28,13 +28,13 @@ const Checkout = () => {
     createOrder({
       payment: {
         method: "base-sepolia",
-        currency: "eth",
+        currency: "degen",
       },
       locale: "en-US",
       lineItems: {
         collectionLocator: `crossmint:${process.env.NEXT_PUBLIC_CROSSMINT_COLLECTION_ID}`,
         callData: {
-          totalPrice: "0.00000488",
+          totalPrice: "1",
         },
       },
     });
@@ -53,7 +53,7 @@ const Checkout = () => {
     updateOrder({
       payment: {
         method: chain,
-        currency: "eth",
+        currency: "degen",
         payerAddress: account.address,
       },
       recipient: {
