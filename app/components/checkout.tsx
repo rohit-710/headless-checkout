@@ -12,6 +12,7 @@ import {
 
 const Checkout = () => {
   const [order, setOrder] = useState<any>();
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("degen");
   const hasCreatedOrder = useRef(false);
 
   const account = useAccount();
@@ -28,7 +29,7 @@ const Checkout = () => {
     createOrder({
       payment: {
         method: "base",
-        currency: "degen",
+        currency: selectedCurrency,
       },
       locale: "en-US",
       lineItems: {
@@ -40,7 +41,7 @@ const Checkout = () => {
     });
 
     hasCreatedOrder.current = true;
-  }, []);
+  }, [selectedCurrency]);
 
   // update the existing order whenever chainId or connected wallet changes
   useEffect(() => {
@@ -51,7 +52,7 @@ const Checkout = () => {
         }
 
         const chain = chainIdMap[chainId.toString()];
-        const currency = chain === "base" ? "degen" : "eth";
+        const currency = chain === "base" ? selectedCurrency : "eth";
 
         await updateOrder({
           payment: {
@@ -69,7 +70,7 @@ const Checkout = () => {
     };
 
     updateExistingOrder();
-  }, [chainId, account.address]);
+  }, [chainId, account.address, selectedCurrency]);
 
   const createOrder = async (orderInput: any) => {
     try {
@@ -156,6 +157,10 @@ const Checkout = () => {
     switchChain({ chainId: Number(chainId) });
   };
 
+  const handleCurrencyChange = (event: any) => {
+    setSelectedCurrency(event.target.value);
+  };
+
   const metadata = order ? order.lineItems[0].metadata : null;
   const price = order ? order.lineItems[0].quote.totalPrice : null;
 
@@ -215,6 +220,18 @@ const Checkout = () => {
             <option value="8453">Base Mainnet</option>
             <option value="10">Optimism</option>
           </select>
+
+          {chainId === 8453 && (
+            <select
+              value={selectedCurrency}
+              onChange={handleCurrencyChange}
+              className="block w-full p-2 ml-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="degen">Degen</option>
+              <option value="toshi">Toshi</option>
+              <option value="brett">Brett</option>
+            </select>
+          )}
 
           <button
             onClick={() => signAndSendTransaction()}
