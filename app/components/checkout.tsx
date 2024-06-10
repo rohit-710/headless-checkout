@@ -46,7 +46,7 @@ const Checkout = () => {
   useEffect(() => {
     const updateExistingOrder = async () => {
       try {
-        if (!order) {
+        if (!order || !account.isConnected) {
           return;
         }
 
@@ -64,12 +64,13 @@ const Checkout = () => {
           },
         });
       } catch (error) {
+        console.error("Failed to update order", error);
         throw new Error("Failed to update order");
       }
     };
 
     updateExistingOrder();
-  }, [chainId, account.address]);
+  }, [chainId, account.isConnected, account.address]);
 
   const createOrder = async (orderInput: any) => {
     try {
