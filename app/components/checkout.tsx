@@ -19,34 +19,12 @@ const Checkout = () => {
   const { switchChain } = useSwitchChain();
   const { data: hash, isPending, sendTransactionAsync } = useSendTransaction();
 
-  // upon initial render create a new order and save it to state
-  useEffect(() => {
-    if (hasCreatedOrder.current) {
-      return;
-    }
-
-    createOrder({
-      payment: {
-        method: "base",
-        currency: "degen",
-      },
-      locale: "en-US",
-      lineItems: {
-        collectionLocator: `crossmint:${process.env.NEXT_PUBLIC_CROSSMINT_COLLECTION_ID}`,
-        callData: {
-          totalPrice: "1",
-        },
-      },
-    });
-
-    hasCreatedOrder.current = true;
-  }, []);
-
   // update the existing order whenever chainId or connected wallet changes
   useEffect(() => {
     const updateExistingOrder = async () => {
       try {
-        if (!order || !account.isConnected) {
+        if (!account.isConnected) {
+          console.log("Order or account not ready for update");
           return;
         }
 
@@ -63,6 +41,8 @@ const Checkout = () => {
             walletAddress: account.address,
           },
         });
+
+        console.log("Order updated successfully");
       } catch (error) {
         console.error("Failed to update order", error);
         throw new Error("Failed to update order");
@@ -70,7 +50,7 @@ const Checkout = () => {
     };
 
     updateExistingOrder();
-  }, [chainId, account.isConnected, account.address]);
+  }, [chainId, account.isConnected, account.address, order]);
 
   const createOrder = async (orderInput: any) => {
     try {
