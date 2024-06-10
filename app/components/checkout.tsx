@@ -153,7 +153,7 @@ const Checkout = () => {
   const chainIdMap: { [key: string]: string } = {
     "421614": "arbitrum-sepolia",
     "84532": "base-sepolia",
-    "8453": "base",
+    "8453": "base-mainnet",
     "11155111": "ethereum-sepolia",
     "11155420": "optimism-sepolia",
     "999999999": "zora-sepolia",
