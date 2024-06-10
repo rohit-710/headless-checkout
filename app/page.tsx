@@ -9,13 +9,14 @@ import {
   baseSepolia,
   optimismSepolia,
   arbitrumSepolia,
+  base,
 } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const config = getDefaultConfig({
   appName: "Crossmint Headless UI Demo",
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID || "",
-  chains: [sepolia, baseSepolia, optimismSepolia, arbitrumSepolia],
+  chains: [sepolia, baseSepolia, optimismSepolia, arbitrumSepolia, base],
   ssr: true,
 });
 
