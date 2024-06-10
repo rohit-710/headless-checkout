@@ -27,7 +27,7 @@ const Checkout = () => {
 
     createOrder({
       payment: {
-        method: "base-sepolia",
+        method: "base",
         currency: "degen",
       },
       locale: "en-US",
@@ -153,6 +153,7 @@ const Checkout = () => {
   const chainIdMap: { [key: string]: string } = {
     "421614": "arbitrum-sepolia",
     "84532": "base-sepolia",
+    "8453": "base",
     "11155111": "ethereum-sepolia",
     "11155420": "optimism-sepolia",
     "999999999": "zora-sepolia",
@@ -204,6 +205,7 @@ const Checkout = () => {
             <option value="">Select network</option>
             <option value="11155111">Ethereum Sepolia</option>
             <option value="84532">Base Sepolia</option>
+            <option value="8453">Base Mainnet</option>
             <option value="11155420">Optimism Sepolia</option>
           </select>
 
