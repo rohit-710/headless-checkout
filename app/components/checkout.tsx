@@ -51,7 +51,7 @@ const Checkout = () => {
         }
 
         const chain = chainIdMap[chainId.toString()];
-        const currency = chain === "base-mainnet" ? "degen" : "eth";
+        const currency = chain === "base" ? "degen" : "eth";
 
         await updateOrder({
           payment: {
