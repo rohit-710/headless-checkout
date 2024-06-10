@@ -23,7 +23,7 @@ const Checkout = () => {
   useEffect(() => {
     const updateExistingOrder = async () => {
       try {
-        if (!order || !account.isConnected || !account.address) {
+        if (!order || !account.address) {
           console.log("Order or account not ready for update");
           return;
         }
@@ -50,7 +50,7 @@ const Checkout = () => {
     };
 
     updateExistingOrder();
-  }, [chainId, account.isConnected, account.address, order]);
+  }, [chainId, account.address, order]);
 
   const createOrder = async (orderInput: any) => {
     try {
