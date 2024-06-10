@@ -19,33 +19,57 @@ const Checkout = () => {
   const { switchChain } = useSwitchChain();
   const { data: hash, isPending, sendTransactionAsync } = useSendTransaction();
 
+  // upon initial render create a new order and save it to state
+  useEffect(() => {
+    if (hasCreatedOrder.current) {
+      return;
+    }
+
+    createOrder({
+      payment: {
+        method: "base",
+        currency: "degen",
+      },
+      locale: "en-US",
+      lineItems: {
+        collectionLocator: `crossmint:${process.env.NEXT_PUBLIC_CROSSMINT_COLLECTION_ID}`,
+        callData: {
+          totalPrice: "1",
+        },
+      },
+    });
+
+    hasCreatedOrder.current = true;
+  }, []);
+
   // update the existing order whenever chainId or connected wallet changes
   useEffect(() => {
     const updateExistingOrder = async () => {
-      if (!order || !account.address) {
-        console.log("Order or account not ready for update");
-        return;
+      try {
+        if (!order) {
+          return;
+        }
+
+        const chain = chainIdMap[chainId.toString()];
+        const currency = chain === "base-mainnet" ? "degen" : "eth";
+
+        await updateOrder({
+          payment: {
+            method: chain,
+            currency: currency,
+            payerAddress: account.address,
+          },
+          recipient: {
+            walletAddress: account.address,
+          },
+        });
+      } catch (error) {
+        throw new Error("Failed to update order");
       }
-
-      const chain = chainIdMap[chainId.toString()];
-      const currency = chain === "base" ? "degen" : "eth";
-
-      await updateOrder({
-        payment: {
-          method: chain,
-          currency: currency,
-          payerAddress: account.address,
-        },
-        recipient: {
-          walletAddress: account.address,
-        },
-      });
-
-      console.log("Order updated successfully");
     };
 
     updateExistingOrder();
-  }, [chainId, account.address, order]);
+  }, [chainId, account.address]);
 
   const createOrder = async (orderInput: any) => {
     try {
