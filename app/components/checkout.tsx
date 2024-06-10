@@ -12,7 +12,6 @@ import {
 
 const Checkout = () => {
   const [order, setOrder] = useState<any>();
-  const [error, setError] = useState<string | null>(null);
   const hasCreatedOrder = useRef(false);
 
   const account = useAccount();
@@ -79,7 +78,7 @@ const Checkout = () => {
       setOrder(order.order);
     } catch (e) {
       console.error(e);
-      setError("Failed to create order");
+      throw new Error("Failed to create order");
     }
   };
 
@@ -100,7 +99,7 @@ const Checkout = () => {
       setOrder(updatedOrder);
     } catch (e) {
       console.error(e);
-      setError("Failed to update order");
+      throw new Error("Failed to update order");
     }
   };
 
@@ -120,42 +119,32 @@ const Checkout = () => {
       setOrder(refreshedOrder);
     } catch (e) {
       console.error(e);
-      setError("Failed to fetch order");
+      throw new Error("Failed to fetch order");
     }
   };
 
   // send the ETH payment for the purchase
   const signAndSendTransaction = async () => {
-    try {
-      const txn = parseTransaction(
-        order.payment.preparation.serializedTransaction || "0x"
-      );
+    const txn = parseTransaction(
+      order.payment.preparation.serializedTransaction || "0x"
+    );
 
-      if (txn.chainId !== chainId) {
-        switchChain({ chainId: Number(txn.chainId) });
-        return;
-      }
-
-      await sendTransactionAsync({
-        to: txn.to as `0x${string}`,
-        value: BigInt(txn.value ? txn.value.toString() : "0"),
-        data: txn.data as `0x${string}`,
-        chainId: txn.chainId,
-      });
-    } catch (e) {
-      console.error(e);
-      setError("Failed to send transaction");
+    if (txn.chainId !== chainId) {
+      switchChain({ chainId: Number(txn.chainId) });
+      return;
     }
+
+    await sendTransactionAsync({
+      to: txn.to as `0x${string}`,
+      value: BigInt(txn.value ? txn.value.toString() : "0"),
+      data: txn.data as `0x${string}`,
+      chainId: txn.chainId,
+    });
   };
 
   const handleNetworkChange = async (event: any) => {
-    try {
-      const chainId = event.target.value;
-      switchChain({ chainId: Number(chainId) });
-    } catch (e) {
-      console.error(e);
-      setError("Failed to switch network");
-    }
+    const chainId = event.target.value;
+    switchChain({ chainId: Number(chainId) });
   };
 
   const metadata = order ? order.lineItems[0].metadata : null;
@@ -178,13 +167,6 @@ const Checkout = () => {
           accountStatus="full"
         />
       </div>
-
-      {error && (
-        <div className="py-2 px-5 my-2 w-full bg-red-100 text-red-700 border border-red-400 rounded">
-          <strong>Error: </strong>
-          <code>{error}</code>
-        </div>
-      )}
 
       <div className="col-span-2">
         {metadata && (
