@@ -44,22 +44,31 @@ const Checkout = () => {
 
   // update the existing order whenever chainId or connected wallet changes
   useEffect(() => {
-    if (!order) {
-      return;
-    }
+    const updateExistingOrder = async () => {
+      try {
+        if (!order) {
+          return;
+        }
 
-    const chain = chainIdMap[chainId.toString()];
+        const chain = chainIdMap[chainId.toString()];
+        const currency = chain === "base-mainnet" ? "degen" : "eth";
 
-    updateOrder({
-      payment: {
-        method: chain,
-        currency: "degen",
-        payerAddress: account.address,
-      },
-      recipient: {
-        walletAddress: account.address,
-      },
-    });
+        await updateOrder({
+          payment: {
+            method: chain,
+            currency: currency,
+            payerAddress: account.address,
+          },
+          recipient: {
+            walletAddress: account.address,
+          },
+        });
+      } catch (error) {
+        throw new Error("Failed to update order");
+      }
+    };
+
+    updateExistingOrder();
   }, [chainId, account.address]);
 
   const createOrder = async (orderInput: any) => {
