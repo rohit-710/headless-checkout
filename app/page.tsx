@@ -4,19 +4,13 @@ import Checkout from "./components/checkout";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import {
-  sepolia,
-  baseSepolia,
-  optimismSepolia,
-  arbitrumSepolia,
-  base,
-} from "wagmi/chains";
+import { mainnet, arbitrum, optimism, base } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const config = getDefaultConfig({
   appName: "Crossmint Headless UI Demo",
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID || "",
-  chains: [sepolia, baseSepolia, optimismSepolia, arbitrumSepolia, base],
+  chains: [mainnet, arbitrum, optimism, base],
   ssr: true,
 });
 

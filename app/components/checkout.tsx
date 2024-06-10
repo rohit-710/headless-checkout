@@ -151,12 +151,10 @@ const Checkout = () => {
   const price = order ? order.lineItems[0].quote.totalPrice : null;
 
   const chainIdMap: { [key: string]: string } = {
-    "421614": "arbitrum-sepolia",
-    "84532": "base-sepolia",
+    "42161": "arbitrum",
     "8453": "base-mainnet",
-    "11155111": "ethereum-sepolia",
-    "11155420": "optimism-sepolia",
-    "999999999": "zora-sepolia",
+    "1": "ethereum",
+    "10": "optimism",
   };
 
   return (
@@ -203,10 +201,10 @@ const Checkout = () => {
             className="block w-full p-2 mr-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select network</option>
-            <option value="11155111">Ethereum Sepolia</option>
-            <option value="84532">Base Sepolia</option>
+            <option value="1">Ethereum</option>
+            <option value="42161">Arbitrum</option>
             <option value="8453">Base Mainnet</option>
-            <option value="11155420">Optimism Sepolia</option>
+            <option value="10">Optimism</option>
           </select>
 
           <button
