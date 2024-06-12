@@ -230,6 +230,7 @@ const Checkout = () => {
               <option value="degen">Degen</option>
               <option value="toshi">Toshi</option>
               <option value="brett">Brett</option>
+              <option value="eth">ETH</option>
             </select>
           )}
 
