@@ -208,7 +208,7 @@ const Checkout = () => {
           </>
         )}
 
-        <div className="flex justify-between items-center">
+       <div className="flex justify-between items-center">
           <select
             value={chainId}
             onChange={handleNetworkChange}
@@ -237,7 +237,7 @@ const Checkout = () => {
           <button
             onClick={() => signAndSendTransaction()}
             disabled={isPending}
-            className="bg-gradient-to-br from-[#01b15d] to-[#0296a8] hover:bg-gradient-to-br hover:from-[#00ff85] hover:to-[#00e1fc] text-white font-bold py-2 px-4 my-2 rounded"
+            className="bg-gradient-to-br from-[#01b15d] to-[#0296a8] hover:bg-gradient-to-br hover:from-[#00ff85] hover:to-[#00e1fc] text-white font-bold py-2 px-4 my-2 rounded ml-3"
           >
             Pay
           </button>
